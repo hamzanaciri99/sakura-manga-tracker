@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-purple {
+  @apply border bg-purple-600 text-white rounded-lg border border-purple-600 p-1 px-3 hover:bg-purple-500 hover:border-purple-500 hover:shadow-md;
+}
