@@ -11,13 +11,13 @@
     }
   </style>
 </head>
-<body class="text-gray-500 overflow-x-hidden">
+<body class="text-gray-500 overflow-x-hidden relative h-full">
   <header class="shadow h-16">
   </header>
   <div class="container bg-transparent lg:mx-auto relative z-10">
     <nav class="w-full grid grid-cols-5 absolute -top-14">
       <ul class="md:flex w-full col-span-4 mt-2">
-        <li class="mr-3 p-1">Logo</li>
+        <li class="mr-3 p-1"><img class="h-7" src="img/logo.png" alt="logo"></li>
         <li class="mr-3 p-1 font-bold text-black border-b-2 border-purple-400"><a href="">Manga List</a></li>
         <li class="mr-3 p-1 hover:text-black"><a href="">Report a problem</a></li>
       </ul>
@@ -35,13 +35,6 @@
         </div>
       </div>
     </nav>
-    <div class="z-30 fixed bottom-5 right-5">
-      <a href="#top">
-        <svg class="h-16 w-16 text-purple-200 hover:text-purple-300" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
-        </svg>
-      </a>
-    </div>
 
     <section class="flex flex-row">
       <div class="mt-12 w-full items-center">
@@ -225,7 +218,7 @@
     </section>
 
   </div>
-  <!-- <footer class="relative bottom-0 mt-24 text-gray-300 text-center bg-gray-700 p-10">
+  <footer class="absolute bottom-0 w-full mt-24 text-gray-300 text-center bg-gray-700 p-10">
     <div class="grid grid-cols-3">
       <div>
         A wise man once said: "Za wardo!"
@@ -241,6 +234,6 @@
         <a href="mailto:naciri.nhamza@gmail.com">Contact me</a>
       </div>
     </div>
-  </footer> -->
+  </footer>
 </body>
 </html>
