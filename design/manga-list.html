@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>&lt;Manga tracker/&gt;</title>
+  <title>&lt;Manga List/&gt;</title>
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/style.css">
 
@@ -12,25 +12,29 @@
   </style>
 </head>
 <body class="text-gray-500 overflow-x-hidden">
-  <header class="grid grid-cols-5 shadow-md pt-2">
-    <ul class="md:flex w-full col-span-4 lg:px-96 md:px-64">
-      <li class="mr-3 p-1">Logo</li>
-      <li class="mr-3 p-1 font-bold text-black border-b-2 border-purple-400"><a href="">Manga List</a></li>
-      <li class="mr-3 p-1 hover:text-black"><a href="#supported_sites">Report a problem</a></li>
-    </ul>
-    <div class="pb-2 relative">
-      <img src="img/avatar.png" alt="avatar" class="rounded-full w-12 h-12 border border-purple-400">
-      <div class="absolute -left-32 w-48 top-12">
-        <ul class="bg-white py-4 px-0 shadow-lg rounded-lg">
-          <li class="px-2 pt-2">Hamza NACIRI</li>
-          <hr class="m-2" />
-          <li class="p-2 hover:bg-purple-100"><a href="">Profile</a></li>
-          <li class="p-2 hover:bg-purple-100"><a href="">Logout</a></li>
-        </ul>
-      </div>
-    </div>
+  <header class="shadow h-16">
   </header>
   <div class="container bg-transparent lg:mx-auto relative z-10">
+    <nav class="w-full grid grid-cols-5 absolute -top-14">
+      <ul class="md:flex w-full col-span-4 mt-2">
+        <li class="mr-3 p-1">Logo</li>
+        <li class="mr-3 p-1 font-bold text-black border-b-2 border-purple-400"><a href="">Manga List</a></li>
+        <li class="mr-3 p-1 hover:text-black"><a href="">Report a problem</a></li>
+      </ul>
+      <div class="pb-2 relative">
+        <img src="img/avatar.png" alt="avatar" class="float-right rounded-full w-12 h-12 border border-purple-400">
+        <div class="hidden text-sm relative top-16 -left-16 float-right ">
+          <div class="mx-auto bg-white w-4 h-4 left-20 z-20 transform rotate-45 absolute -top-2 shadow border"></div>
+          <div class="mx-auto bg-white w-4 h-4 left-20 z-40 transform rotate-45 absolute -top-2"></div>
+          <ul class="bg-white pt-4 pb-1 px-0 w-48 shadow-sm border rounded-lg z-30 absolute">
+            <li class="px-2">Hamza NACIRI</li>
+            <hr class="m-2" />
+            <li class="p-2 hover:bg-purple-100"><a href="">Profile</a></li>
+            <li class="p-2 hover:bg-purple-100"><a href="">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div class="z-30 fixed bottom-5 right-5">
       <a href="#top">
         <svg class="h-16 w-16 text-purple-200 hover:text-purple-300" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -38,6 +42,188 @@
         </svg>
       </a>
     </div>
+
+    <section class="flex flex-row">
+      <div class="mt-12 w-full items-center">
+        <select name="status" id="status" class="text-sm h-12 form-select rounded-lg border-gray-300 shadow-sm lg:mr-4">
+          <option value="all">All</option>
+          <option value="reading">Reading</option>
+          <option value="on_hold">On Hold</option>
+          <option value="completed">Completed</option>
+        </select>
+  
+        <select name="sort" id="sort" class="text-sm h-12 form-select rounded-lg border-gray-300 shadow-sm lg:mr-4" >
+          <option value="reading">Unread</option>
+          <option value="on_hold">Title</option>
+        </select>
+  
+        <div class="relative inline">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 absolute left-2 -top-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" name="search" class="text-sm h-12 pl-10 form-input rounded-lg border-gray-300 shadow-sm" />
+        </div>
+        
+
+        <button class="float-right btn-purple flex h-12 items-center shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg> &nbsp;
+          Add manga
+        </button>
+      </div>
+    </section>
+
+    <section class="flex flex-col">
+      <div class="my-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <input type="checkbox" class="form-checkbox rounded-md"/>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Last read
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Last chapter
+                  </th>
+                  <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr class="py-2">
+                  <td class="px-6 ">
+                    <input type="checkbox" class="form-checkbox rounded-md "/>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <div class="flex space-x-2 items-center">
+                      <div>
+                        One Piece
+                      </div>
+                      <span class="flex relative h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Reading
+                    </span>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span>
+                      Ch. 169
+                    </span>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span>
+                      Ch. 170
+                    </span>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <div class="grid grid-cols-3 m-2 p-1 flex-row border divide-x divide-gray-300 shadow-sm rounded-md">
+                      <div class="relative p-1">
+                        <span class="absolute p-2 bg-white border border-gray-200 shadow rounded-md text-xs -top-12 ">
+                          Mark as read
+                        </span>
+                        <a href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto hover:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </a>
+                      </div>
+                      <div class="relative p-1">
+                        <span class="hidden absolute p-2 bg-white border border-gray-200 shadow rounded-md text-xs -top-12">
+                          Edit
+                        </span>
+                        <a href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto hover:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </a>
+                      </div>
+                      <div class="relative p-1">
+                        <span class="hidden absolute p-2 bg-white border border-gray-200 shadow rounded-md text-xs -top-12">
+                          Remove
+                        </span>
+                        <a href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6 hover:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 ">
+                    <input type="checkbox" class="form-checkbox rounded-md "/>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <div class="flex space-x-2 items-center">
+                      <div>
+                        Naruto
+                      </div>
+                      <span class="hidden flex relative h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                      Completed
+                    </span>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span>
+                      Ch. 169
+                    </span>
+                  </td>
+                  <td class="px-6  whitespace-nowrap">
+                    <span>
+                      Ch. 169
+                    </span>
+                  </td>
+                  <td class="px-6 whitespace-nowrap">
+                    <div class="grid grid-cols-3 m-2 p-1 flex-row border divide-x divide-gray-300 shadow-sm rounded-md">
+                      <a href="#" class="p-1 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </a>
+                      <a href="#" class="p-1 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </a>
+                      <a href="#" class="p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
   <!-- <footer class="relative bottom-0 mt-24 text-gray-300 text-center bg-gray-700 p-10">
     <div class="grid grid-cols-3">
