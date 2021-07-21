@@ -1,0 +1,10 @@
+<div class="text-gray-500 overflow-x-hidden">
+  <div *ngIf="router.url === '/' || router.url.startsWith('/#')"
+    class="hidden lg:block  z-0 -top-2/4 -right-2/4 absolute w-screen h-screen bg-purple-100 transform skew-y-12 rotate-45"></div>
+  <div *ngIf="router.url.startsWith('/dashboard')" class="shadow h-16"></div>
+  <div id="top" class="container bg-transparent lg:mx-auto relative z-10">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer *ngIf="router.url !== '/login' && router.url !== '/signup'"></app-footer>
+</div>

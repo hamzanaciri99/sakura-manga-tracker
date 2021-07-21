@@ -1,15 +1,20 @@
-const colors = require('tailwindcss/colors')
-
 module.exports = {
-    prefix: '',
-    purge: {
-      content: [
-        './src/**/*.{html,ts}',
-      ]
+  purge: [],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    fontFamily: {
+      'sans': ['Montserrat'],
+      'serif': ['Montserrat'],
+      'mono': ['Montserrat'],
+      'display': ['Montserrat'],
+      'body': ['Montserrat']
     },
-    darkMode: 'class', // or 'media' or 'class'
-    variants: {
-      extend: {},
-    },
-    plugins: [require('@tailwindcss/forms'),require('@tailwindcss/typography')],
-};
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+}

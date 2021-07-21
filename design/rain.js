@@ -6,12 +6,13 @@ window.onload = function() {
   for(let i = 0; i < 10; ++i) {
     let img = document.createElement('img');
     img.src = 'img/sakura.png';
-    img.classList = 'h-4';
+    img.classList = 'h-8';
   
     let leaf = document.createElement('div');
-    leaf.classList = 'absolute transition-transform duration-1000 z-10';
+    leaf.classList = 'absolute transition ease-in transition-transform z-10';
     leaf.append(img);
 
+    leaf.style.setProperty('display', 'block');
     leafs.push(leaf);
     body.append(leaf);
   }
@@ -26,15 +27,16 @@ window.onload = function() {
       leaf.style.setProperty('opacity','0%');
   
       setTimeout(function() {
-        leaf.style.setProperty('transform', 'translateY(98vh)');
+        leaf.style.setProperty('transform', 'translateY(98vh) rotate(360deg)');
+        leaf.style.setProperty('transition-duration', '1500ms');
         leaf.style.setProperty('opacity', '75%');
         setTimeout(function() {
           leaf.style.removeProperty('transform');
           leaf.style.setProperty('display', 'none');
           leafs.push(leaf);
-        }, 1000);
-      }, 1000);
+        }, 1500);
+      }, 1500);
     }
-  }, 200);
+  }, 500);
 
 };

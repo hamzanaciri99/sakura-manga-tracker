@@ -3,10 +3,13 @@ package com.mangatracker.userservice.Controller;
 import java.util.List;
 
 import com.mangatracker.userservice.Model.Manga;
+import com.mangatracker.userservice.Model.Response;
 import com.mangatracker.userservice.Model.User;
 import com.mangatracker.userservice.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,15 +26,15 @@ public class UserController {
   UserRepository userRepository;
 
   @PostMapping("/add")
-  public String addUser(@RequestParam("email") String email, 
+  public Response addUser(@RequestParam("email") String email, 
       @RequestParam("fullname") String fullName, @RequestParam("username") String username,
       @RequestParam("password") String password) {
     try {
       User user = new User(null, fullName, email, username, password);
       userRepository.save(user);
-      return "added";
+      return Response.SUCCESS;
     } catch (Exception e)  {
-      return "error";
+      return Response.ERROR;
     }
   }
 
@@ -51,28 +54,28 @@ public class UserController {
   }
 
   @PutMapping("/password")
-  public String updatePassword(@RequestParam("password") String password,
+  public Response updatePassword(@RequestParam("password") String password,
       @RequestParam("userId") Long userId) {
     try {
       User user = userRepository.findById(userId).get();
       user.setPassword(password);
       userRepository.save(user);
-      return "changed";
+      return Response.SUCCESS;
     } catch (Exception e) {
-      return "error";
+      return Response.ERROR;
     }
   }
 
   @PutMapping("/username")
-  public String updateUsername(@RequestParam("username") String username,
+  public Response updateUsername(@RequestParam("username") String username,
       @RequestParam("userId") Long userId) {
     try {
       User user = userRepository.findById(userId).get();
       user.setUsername(username);
       userRepository.save(user);
-      return "changed";
+      return Response.SUCCESS;
     } catch (Exception e) {
-      return "error";
+      return Response.ERROR;
     }
   }
   

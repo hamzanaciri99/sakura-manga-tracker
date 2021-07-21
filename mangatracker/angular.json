@@ -59,6 +59,20 @@
                   "maximumError": "4kb"
                 }
               ]
+            },
+            "dev": {
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "showCircularDependencies": false,
+              "aot": true,
+              "extractLicenses": false,
+              "statsJson": false,
+              "progress": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           }
         },
@@ -70,6 +84,9 @@
           "configurations": {
             "production": {
               "browserTarget": "mangatracker:build:production"
+            }, 
+            "dev": {
+              "browserTarget": "mangatracker:build:dev"
             }
           }
         },
