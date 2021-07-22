@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { catchError } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { MangaService } from '../services/MangaService';
+import { UserInfoService } from '../services/UserInfoService';
 
 @Component({
   selector: 'app-edit-manga',
@@ -9,7 +10,7 @@ import { MangaService } from '../services/MangaService';
 })
 export class EditMangaComponent implements OnInit {
 
-  constructor(private mangaService: MangaService) { }
+  constructor(private mangaService: MangaService, private userInfoService: UserInfoService) { }
 
   status: string = '';
   @Input('hidden') hidden = true;
@@ -27,13 +28,19 @@ export class EditMangaComponent implements OnInit {
   }
 
   edit(mangaId: string, status: string) {
-    this.mangaService.updateStatus('1', mangaId, status).subscribe(
-      result => {
-        if(result.status === 'SUCCESS')
-          this.editEventEmitter.emit({mangaId, status})
-        else console.log('edit failed');
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      userInfo => {
+        if(userInfo) {
+          this.mangaService.updateStatus(userInfo.user.id, mangaId, status).subscribe(
+            result => {
+              if(result.status === 'SUCCESS')
+                this.editEventEmitter.emit({mangaId, status})
+              else console.log('edit failed');
+            }
+          );
+        }
       }
-    )
+    );
     this.close();
   }
 }

@@ -1,17 +1,27 @@
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 
+@Injectable({providedIn: 'root'})
 export class CacheInterceptor implements HttpInterceptor {
 
-  
   cache: Storage = localStorage;
+
+  constructor(private router: Router) {  }  
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    if(!this.router.url.startsWith('/dashboard/manga-list'))
+      next.handle(req); 
+
     if(req.method !== 'GET') {
       // Clear cache whevener a PUT or POST or DELETE method is called
+      let userInfo = this.cache.getItem('userInfo');
       this.cache.clear();
+      // keep userInfo
+      if(userInfo) this.cache.setItem('userInfo', userInfo);
       return next.handle(req);
     }
 
@@ -21,10 +31,7 @@ export class CacheInterceptor implements HttpInterceptor {
     }
 
     const cachedResponse = this.cache.getItem(req.url);
-    console.log(cachedResponse);
     if(cachedResponse != undefined) {
-      console.log(this.deserializeResponse<any>(cachedResponse))
-
       // Create new observable from the cached response and send it again
       return of(this.deserializeResponse<any>(cachedResponse).clone());
     } else {

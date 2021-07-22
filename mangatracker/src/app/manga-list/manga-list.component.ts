@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { concat } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { Manga } from '../models/Manga';
 import { MangaService } from '../services/MangaService';
+import { UserInfoService } from '../services/UserInfoService';
 
 @Component({
   selector: 'app-manga-list',
@@ -24,14 +25,14 @@ export class MangaListComponent implements OnInit {
     },
     'unread': function(m1: Manga, m2: Manga) {
       if(m1.lastRead < m1.lastChapter) return -1;
-      if(m2.lastRead < m2.lastChapter)return 1;
+      if(m2.lastRead < m2.lastChapter) return 1;
       return 0;
     }
   };
 
   editMangaId = '';
 
-  constructor(private mangaService: MangaService) { }
+  constructor(private mangaService: MangaService, private userInfoService: UserInfoService) { }
 
   addMangaHidden = true;
   editMangaHidden = true;
@@ -58,17 +59,21 @@ export class MangaListComponent implements OnInit {
   }
 
   DeleteMulti() {
-    let deleteObservables = this.getFilteredMangaList()
-      .filter(manga => manga.selected)
-      .map(selectedManga => this.mangaService.delete('1', selectedManga.mangaId));
-    
-    concat(...deleteObservables).subscribe(
-      result => {
-        if(result.status === 'SUCCESS')
-          console.log("deleted!");
-        else console.log('delete failed');
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      (userInfo) => {
+        let deleteObservables = this.getFilteredMangaList()
+        .filter(manga => manga.selected)
+        .map(selectedManga => this.mangaService.delete(userInfo?.user.id || 0, selectedManga.mangaId));
+      
+        concat(...deleteObservables).subscribe(
+          result => {
+            if(result.status === 'SUCCESS')
+              console.log("deleted!");
+            else console.log('delete failed');
+          }
+        );
       }
-    )
+    );
 
     this.mangaList = this.mangaList.filter(manga => !manga.selected);
   }
@@ -80,13 +85,20 @@ export class MangaListComponent implements OnInit {
 
   onMarkAsRead(mangaId: string, lastRead: string | number) {
     let manga = this.mangaList.find(manga => manga.mangaId == mangaId);
-    this.mangaService.updateLastChapter('1', mangaId, lastRead).subscribe(
-      result => {
-        if(result.status === 'SUCCESS' && manga) 
-          manga.lastRead = +lastRead;
-        else console.log('mark as read failed');
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      (userInfo) => {
+        if(userInfo) {
+          this.mangaService.updateLastChapter(userInfo.user.id, mangaId, lastRead).subscribe(
+            result => {
+              if(result.status === 'SUCCESS' && manga) 
+                manga.lastRead = +lastRead;
+              else console.log('mark as read failed');
+            }
+          );
+        }
       }
     );
+    
   }
 
   onEdit($event: {mangaId: string, status: string}) {
@@ -95,19 +107,31 @@ export class MangaListComponent implements OnInit {
   }
 
   onDelete(mangaId: string) {
-    this.mangaService.delete('1', mangaId).subscribe(
-      result => {
-        if(result.status === 'SUCCESS')
-          this.mangaList.splice(this.mangaList.findIndex(manga => manga.mangaId == mangaId), 1);
-        else console.log('delete failed');
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      (userInfo) => {
+        if(userInfo) {
+          this.mangaService.delete(userInfo.user.id, mangaId).subscribe(
+            result => {
+              if(result.status === 'SUCCESS')
+                this.mangaList.splice(this.mangaList.findIndex(manga => manga.mangaId == mangaId), 1);
+              else console.log('delete failed');
+            }
+          );
+        }
       }
     );
   }
 
   async fetchMangaList() {
-    this.mangaService.getUserManga('1').subscribe(mangaList => {
-      this.mangaList = mangaList;
-    });
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      (userInfo) => {
+        if(userInfo) {
+          this.mangaService.getUserManga(userInfo.user.id).subscribe(mangaList => {
+            this.mangaList = mangaList;
+          });
+        }
+      }
+    );
   }
 
   getFilteredMangaList() {
@@ -122,6 +146,4 @@ export class MangaListComponent implements OnInit {
         && manga.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1
     );
   }
-
-
 }

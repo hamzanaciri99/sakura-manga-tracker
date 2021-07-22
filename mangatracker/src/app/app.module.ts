@@ -15,6 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddMangaComponent } from './add-manga/add-manga.component';
 import { EditMangaComponent } from './edit-manga/edit-manga.component';
 import { CacheInterceptor } from './interceptors/CacheInterceptor';
+import { MangaService } from './services/MangaService';
 
 @NgModule({
   declarations: [
@@ -40,8 +41,7 @@ import { CacheInterceptor } from './interceptors/CacheInterceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,
       multi: true
-    },
-    AuthService
+    }
   ],
   bootstrap: [AppComponent]
 })

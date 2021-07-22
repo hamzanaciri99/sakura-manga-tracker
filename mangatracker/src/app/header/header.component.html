@@ -4,7 +4,6 @@
     <li class="mr-3 p-1 hover:text-black"><a href="#features">Features</a></li>
     <li class="mr-3 p-1 hover:text-black"><a href="#supported_sites">Supported Sites</a></li>
     <li class="mr-3 p-1 hover:text-black"><a href="#statistics">Statistics</a></li>
-    <li class="mr-3 p-1 hover:text-black"><a routerLink="/dashboard/manga-list">Manga list</a></li>
     <div class="md:absolute md:right-0 md:flex p-1">
       <li class="md:ml-3 p-1 hover:text-black"><a routerLink="/login">Login</a></li>
       <li class="md:ml-3 btn-purple"><a routerLink="/signup">Signup</a></li>
@@ -16,7 +15,7 @@
   <ul class="md:flex w-full col-span-4 mt-2">
     <li class="mr-3 p-1 cursor-pointer" routerLink="/"><img class="h-7" src="assets/img/logo.png" alt="logo"></li>
     <li class="mr-3 p-1 hover:text-black cursor-pointer" routerLink="/dashboard/manga-list" routerLinkActive="font-bold text-black border-b-2 border-purple-400">Manga List</li>
-    <li class="mr-3 p-1 hover:text-black cursor-pointer" routerLink="" routerLinkActive="font-bold text-black border-b-2 border-purple-400">
+    <li class="mr-3 p-1 hover:text-black cursor-pointer" routerLink="/dashboard/report-problem" routerLinkActive="font-bold text-black border-b-2 border-purple-400">
         Report a problem
     </li>
   </ul>
@@ -26,10 +25,13 @@
       <div class="mx-auto bg-white w-4 h-4 left-20 z-20 transform rotate-45 absolute -top-2 shadow border"></div>
       <div class="mx-auto bg-white w-4 h-4 left-20 z-40 transform rotate-45 absolute -top-2"></div>
       <ul class="bg-white pt-4 pb-1 px-0 w-48 shadow-sm border rounded-lg z-30 absolute">
-        <li class="px-2">Hamza NACIRI</li>
+        <li class="px-2">
+          <span class="block">Logged in as:</span>
+          <span class="text-black">{{fullname | uppercase}}</span>
+        </li>
         <hr class="m-2" />
-        <li class="p-2 hover:bg-purple-100"><a href="">Profile</a></li>
-        <li class="p-2 hover:bg-purple-100"><a href="">Logout</a></li>
+        <li class="p-2 hover:bg-purple-100 cursor-pointer">Profile</li>
+        <li class="p-2 hover:bg-purple-100 cursor-pointer" (click)="onLogout()">Logout</li>
       </ul>
     </div>
   </div>

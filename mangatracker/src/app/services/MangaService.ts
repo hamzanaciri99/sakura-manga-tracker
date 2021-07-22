@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { concatMap, map, mergeMap, switchMap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { Manga } from "../models/Manga";
 
 const BASE_URL = 'http://localhost:8080/manga';
@@ -16,7 +16,7 @@ export class MangaService {
     return this.http.get<Array<Manga>>(`${BASE_URL}/search/${title}`);
   }
 
-  add(userId: string, mangaId: string, status: string) {
+  add(userId: number, mangaId: string, status: string) {
     return this.http.post<Response>(`${BASE_URL}/add`, null, {
       params: new HttpParams()
         .set('mangaId', mangaId)
@@ -25,7 +25,7 @@ export class MangaService {
     });
   }
 
-  delete(userId: string, mangaId: string) {
+  delete(userId: number, mangaId: string) {
     return this.http.delete<Response>(`${BASE_URL}`, {
       params: new HttpParams()
         .set('mangaId', mangaId)
@@ -33,7 +33,7 @@ export class MangaService {
     });
   }
 
-  updateLastChapter(userId: string, mangaId: string, lastChapter: string | number) {
+  updateLastChapter(userId: number, mangaId: string, lastChapter: string | number) {
     return this.http.put<Response>(`${BASE_URL}/lastChapter`, null, {
       params: new HttpParams()
         .set('mangaId', mangaId)
@@ -42,7 +42,7 @@ export class MangaService {
     });
   }
 
-  updateStatus(userId: string, mangaId: string, status: string) {
+  updateStatus(userId: number, mangaId: string, status: string) {
     return this.http.put<Response>(`${BASE_URL}/status`, null, {
       params: new HttpParams()
         .set('mangaId', mangaId)
@@ -51,7 +51,7 @@ export class MangaService {
     });
   }
 
-  getUserManga(userId: string) {
+  getUserManga(userId: number) {
     return this.http
         .get<Array<Manga>>(`${BASE_URL}/user/${userId}`)
         .pipe(
@@ -60,8 +60,6 @@ export class MangaService {
   }
 
   getInfo(manga: Manga[]) {
-    console.log(manga);
-    console.log(typeof manga);
     manga.forEach(m => {
       this.http
         .get<Manga>(`${BASE_URL}/${m.mangaId}`)

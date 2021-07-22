@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 
 import com.mangatracker.Config.SecurityConfig;
+import com.mangatracker.Config.UserDetailsImp;
+import com.mangatracker.Model.LoginResponse;
 import com.mangatracker.Model.Response;
 import com.mangatracker.Model.User;
 import com.mangatracker.jwt.JwtUtil;
@@ -19,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.LinkedMultiValueMap;
@@ -66,17 +69,17 @@ public class UserController {
   
 
   @PostMapping("login")
-  public String login(@RequestParam("username") String username,
+  public LoginResponse login(@RequestParam("username") String username,
     @RequestParam("password") String password) {
-      try {
+      try { 
         Authentication authenticate = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(username, password)
         );
         
-        UserDetails user = (UserDetails) authenticate.getPrincipal();
-        return jwtUtil.generateJwtToken(user);
-      } catch (BadCredentialsException ex) {
-          return null;
+        UserDetailsImp userDetails = (UserDetailsImp) authenticate.getPrincipal();
+        return new LoginResponse(userDetails.getUser(), jwtUtil.generateJwtToken(userDetails));
+      } catch (AuthenticationException ex) {
+        return new LoginResponse();
       }
   }
 }

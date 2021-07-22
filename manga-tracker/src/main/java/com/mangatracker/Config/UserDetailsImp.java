@@ -16,6 +16,10 @@ public class UserDetailsImp implements UserDetails {
     this.user = user;
   }
 
+  public User getUser() {
+    return user;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     // TODO Auto-generated method stub

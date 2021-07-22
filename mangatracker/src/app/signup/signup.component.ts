@@ -41,9 +41,6 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void { }
 
   onSignup() {
-    // console.log(this.form);
-    // this.formErrors = ['fullname', 'username', 'email', 'password'].map((cn) => this.form.getError('pattern', cn))
-    //   .filter(e => e != null).map(e => `value: ${e.actualValue}, regex: ${e.requiredPattern}`).join('\n');
     this.authService.signup(this.form.value).subscribe(console.log);
   }
 

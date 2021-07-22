@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Manga } from '../models/Manga';
 import { MangaService } from '../services/MangaService';
+import { UserInfoService } from '../services/UserInfoService';
 
 @Component({
   selector: 'app-add-manga',
@@ -11,7 +12,7 @@ import { MangaService } from '../services/MangaService';
 })
 export class AddMangaComponent implements OnInit {
 
-  constructor(private mangaService: MangaService) { }
+  constructor(private mangaService: MangaService, private userInfoService: UserInfoService) { }
 
   _searchKeyword: string = '';
   searchKeywordListner = new BehaviorSubject(this.searchKeyword);
@@ -52,10 +53,14 @@ export class AddMangaComponent implements OnInit {
 
 
   add() {
-    if(this.selectedManga && this.status != '') {
-      this.mangaService.add('1', this.selectedManga?.mangaId, this.status).subscribe(result => this.addEventEmitter.emit());
-    }
-      
+    this.userInfoService.userInfo.pipe(take(1)).subscribe(
+      userInfo => {
+        if(userInfo && this.selectedManga && this.status != '') {
+          this.mangaService.add(userInfo.user.id, this.selectedManga.mangaId, this.status)
+              .subscribe(() => this.addEventEmitter.emit());
+        }
+      }
+    );      
     this.close();
   }
 

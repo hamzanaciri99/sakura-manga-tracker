@@ -1,26 +1,30 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { LoginResponse } from "../models/LoginResponse";
+import { User } from "../models/User";
 
-interface UserDetails {
-  fullname: string;
-  email: string;
-  username: string;
-  password: string
-}
+const BASE_URL = 'http://localhost:8080/user'
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-
-  signup(user: UserDetails) {
-    return this.http.post<string>('http://localhost:8080/user/signup', user, {
+  login(username: string, password: string) {
+    return this.http.post<LoginResponse>(`${BASE_URL}/login`, null, {
       params: new HttpParams()
-        .set('fullname', user.fullname)
+        .set('username', username)
+        .set('password', password)
+    })
+  }
+
+  signup(user: User) {
+    return this.http.post<string>(`${BASE_URL}/signup`, null, {
+      params: new HttpParams()
+        .set('fullname', user.fullName)
         .set('email', user.email)
         .set('username', user.username)
-        .set('password', user.password)
+        .set('password', user.password || '')
     });
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/AuthService';
+import { UserInfoService } from '../services/UserInfoService';
 
 @Component({
   selector: 'app-login',
@@ -7,16 +10,34 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  constructor() { }
-
-  ngOnDestroy(): void {
-    if(this.intervalId) clearInterval(this.intervalId);
-  }
-
   intervalId: any;
+
+  username: string = '';
+  password: string = '';
+
+  error: string = ''
+
+  constructor(private authService: AuthService,
+    private userInfoService: UserInfoService, private router: Router) { }
+
+
+  onLogin() {
+    this.authService.login(this.username, this.password).subscribe(loginResponse => {
+      if(loginResponse.jwtToken) {
+        this.userInfoService.register(loginResponse);
+        this.router.navigate(['/dashboard/manga-list']);
+      } else {
+        this.error = 'Bad Credentials';
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.intervalId = this.letItRain();
+  }
+
+  ngOnDestroy(): void {
+    if(this.intervalId) clearInterval(this.intervalId);
   }
 
   letItRain() {
@@ -29,10 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       img.className = 'h-8';
     
       let leaf = document.createElement('div');
-      leaf.className = 'absolute transition ease-in transition-transform z-10';
+      leaf.className = 'absolute transition ease-in transition-transform z-0';
       leaf.append(img);
 
-      leaf.style.setProperty('display', 'block');
+      leaf.style.setProperty('display', 'none');
       leafs.push(leaf);
       body.append(leaf);
     }
@@ -42,12 +63,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         let leaf = leafs.pop() || new HTMLElement();
 
         leaf.style.setProperty('display', 'block');
-        leaf.style.setProperty('top', '0');
+        leaf.style.setProperty('top', '-50px');
         leaf.style.setProperty('left', `${Math.random() * 100}%`);
         leaf.style.setProperty('opacity','0%');
     
         setTimeout(function() {
-          leaf.style.setProperty('transform', 'translateY(98vh) rotate(360deg)');
+          if(Math.random() > 0.5)
+            leaf.style.setProperty('transform', 'translateY(98vh) translateX(-200px) rotate(360deg)');
+          else leaf.style.setProperty('transform', 'translateY(98vh) translateX(200px) rotate(360deg)');
           leaf.style.setProperty('transition-duration', '1500ms');
           leaf.style.setProperty('opacity', '75%');
           setTimeout(function() {
