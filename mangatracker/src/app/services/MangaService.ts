@@ -55,11 +55,13 @@ export class MangaService {
     return this.http
         .get<Array<Manga>>(`${BASE_URL}/user/${userId}`)
         .pipe(
-          map(manga => this.getInfo(manga))
+          map((manga: Manga[]) => this.getInfo(manga))
         );
   }
 
   getInfo(manga: Manga[]) {
+    console.log(manga);
+    console.log(typeof manga);
     manga.forEach(m => {
       this.http
         .get<Manga>(`${BASE_URL}/${m.mangaId}`)

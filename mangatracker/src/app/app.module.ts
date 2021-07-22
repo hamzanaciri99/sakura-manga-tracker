@@ -11,9 +11,10 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/AuthService';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AddMangaComponent } from './add-manga/add-manga.component';
 import { EditMangaComponent } from './edit-manga/edit-manga.component';
+import { CacheInterceptor } from './interceptors/CacheInterceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,14 @@ import { EditMangaComponent } from './edit-manga/edit-manga.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [AuthService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    },
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
