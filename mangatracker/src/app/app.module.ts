@@ -16,6 +16,7 @@ import { AddMangaComponent } from './add-manga/add-manga.component';
 import { EditMangaComponent } from './edit-manga/edit-manga.component';
 import { CacheInterceptor } from './interceptors/CacheInterceptor';
 import { MangaService } from './services/MangaService';
+import { JwtTokenInterceptor } from './interceptors/JwtTokenInterceptor';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,11 @@ import { MangaService } from './services/MangaService';
     AppRoutingModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtTokenInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,

@@ -34,12 +34,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     // TODO Auto-generated method stub
     final String token = request.getHeader(JWT_HEADER);
 
+    LOG.info("token: " + token);
+
     if(token == null || !jwtUtil.verifyJwtToken(token)) {
       filterChain.doFilter(request, response);
       return;
     }
-
-    LOG.info("token: " + token);
 
     UsernamePasswordAuthenticationToken 
       authentication = new UsernamePasswordAuthenticationToken(jwtUtil.getUsername(token), null, List.of());

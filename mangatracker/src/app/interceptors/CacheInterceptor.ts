@@ -12,7 +12,6 @@ export class CacheInterceptor implements HttpInterceptor {
   constructor(private router: Router) {  }  
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     if(!this.router.url.startsWith('/dashboard/manga-list'))
       next.handle(req); 
 
