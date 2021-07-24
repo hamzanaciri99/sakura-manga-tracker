@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mariadb:
+    image: sakura/mariadb
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ""
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: manga_tracker
+    ports:
+      - 3306:3306
+  discovery-server:
+    image: sakura/discovery-server
+    container_name: discovery-server
+    ports:
+      - 8761:8761
+  user-service:
+    image: sakura/user-service
+    depends_on:
+      - discovery-server
+      - mariadb
+    environment:
+      - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
+      - MYSQL_HOST=mariadb
+    ports:
+      - 8082:8082
+  manga-info-service:
+    image: sakura/manga-info-service
+    depends_on:
+      - discovery-server
+    environment:
+      - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
+    ports:
+      - 8081:8081
+  manga-tracker:
+    image: sakura/manga-tracker
+    depends_on:
+      - discovery-server
+      - user-service
+      - manga-info-service
+    environment:
+      - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
+    ports:
+      - 8080:8080
