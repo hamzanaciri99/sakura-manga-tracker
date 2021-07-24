@@ -1,0 +1,19 @@
+<label for="fullName" class="col-span-2">{{name | titlecase}}</label>
+<div class="flex items-center relative col-span-2">
+  <span class="absolute left-2" #icon></span>
+  <input class="w-full rounded-md border-gray-300 pl-10 text-sm"
+    [type]="type" 
+    [name]="name" 
+    [placeholder]="name | titlecase" 
+    [(ngModel)]="value"
+    [readOnly]="!edit"
+    [ngClass]="{
+      'text-black': edit
+    }"/>
+</div>
+<button class="align-self-center justify-self-center btn-purple w-max shadow"
+  type="submit"
+  (click)="onButtonClick()">
+  {{(edit) ? "Save":"Edit"}}
+</button>
+<app-message-alert class="col-span-5" [message]="alert.message | titlecase" [type]="alert.type" [show]="alert.show" ></app-message-alert>

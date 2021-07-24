@@ -1,6 +1,7 @@
 <div>
   <app-add-manga [hidden]="addMangaHidden" (onClose)="closeAddMangaPopup($event)" (onAdd)="fetchMangaList()"></app-add-manga>
   <app-edit-manga [mangaId]="editMangaId" [hidden]="editMangaHidden" (onClose)="closeEditMangaPopup($event)" (onEdit)="onEdit($event)"></app-edit-manga>
+  <app-message-alert [message]="alert.message" [type]="alert.type" [show]="alert.show" ></app-message-alert>
   <section class="flex flex-row">
     <div class="mt-12 w-full items-center space-x-2">
       <label for="sort">Sort by</label>

@@ -1,0 +1,9 @@
+<div class="container justify-self-center w-1/2 mt-10 divide-y space-y-2">
+  <h1 class="font-bold text-3xl">General Profile Settings</h1>
+  <div class="pt-4 space-y-2 text-sm">
+    <app-profile-field [value]="user?.fullName || ''" name="fullName" _type="text"></app-profile-field>
+    <app-profile-field [value]="user?.username || ''" name="username" _type="text"></app-profile-field>
+    <app-profile-field [value]="user?.email || ''" name="email" _type="email"></app-profile-field>
+    <app-profile-field [value]="user?.password || ''" name="password" _type="password"></app-profile-field>
+  </div>
+</div>

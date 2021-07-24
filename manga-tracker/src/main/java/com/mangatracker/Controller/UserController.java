@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,7 +51,7 @@ public class UserController {
   RestTemplate restTemplate;
 
   @PostMapping("signup")
-  public Response signup(@RequestParam("username") String username,
+  public LoginResponse signup(@RequestParam("username") String username,
     @RequestParam("email") String email, @RequestParam("fullname") String fullname,
     @RequestParam("password") String password) {
 
@@ -64,7 +66,9 @@ public class UserController {
 
     HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
-    return restTemplate.postForObject("http://user-service/user/add", request , Response.class);
+    restTemplate.postForObject("http://user-service/user/add", request , Response.class);
+
+    return login(username, password);
   }
   
 
@@ -81,5 +85,20 @@ public class UserController {
       } catch (AuthenticationException ex) {
         return new LoginResponse();
       }
+  }
+
+  @PutMapping
+  public Response updateUserInfo(@RequestParam("field") String field,
+      @RequestParam("value") String value, @RequestParam("userId") Long userId) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+    MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+    map.add("userId", userId.toString());
+    map.add("field", field);
+    map.add("value", value);
+
+    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+    return restTemplate.exchange("http://user-service/user", HttpMethod.PUT, request, Response.class).getBody();
   }
 }

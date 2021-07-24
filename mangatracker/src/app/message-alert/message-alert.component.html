@@ -1,0 +1,9 @@
+<div #messageAlert
+  class="absolute justify-self-center py-5 px-8 shadow rounded z-40 -top-48 transform transition duration-500"
+  [ngClass]="{
+    'bg-purple-200 text-purple-900': type === 'SUCCESS',
+    'bg-pink-100 text-pink-900': type === 'ERROR',
+    'bg-yellow-100 text-yellow-900': type === 'PENDING'
+  }">
+  <div>{{message}}</div>
+</div>

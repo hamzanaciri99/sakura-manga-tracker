@@ -53,12 +53,12 @@ public class UserController {
     }
   }
 
-  @PutMapping("/password")
-  public Response updatePassword(@RequestParam("password") String password,
-      @RequestParam("userId") Long userId) {
+  @PutMapping
+  public Response updateUserInfo(@RequestParam("field") String field,
+      @RequestParam("value") String value, @RequestParam("userId") Long userId) {
     try {
       User user = userRepository.findById(userId).get();
-      user.setPassword(password);
+      setUserField(field, value, user);
       userRepository.save(user);
       return Response.SUCCESS;
     } catch (Exception e) {
@@ -66,16 +66,12 @@ public class UserController {
     }
   }
 
-  @PutMapping("/username")
-  public Response updateUsername(@RequestParam("username") String username,
-      @RequestParam("userId") Long userId) {
-    try {
-      User user = userRepository.findById(userId).get();
-      user.setUsername(username);
-      userRepository.save(user);
-      return Response.SUCCESS;
-    } catch (Exception e) {
-      return Response.ERROR;
+  private void setUserField(String field, String value, User user) {
+    switch(field) {
+      case "fullName": user.setFullName(value); break;
+      case "username": user.setUsername(value); break;
+      case "email": user.setEmail(value); break;
+      case "password": user.setPassword(value); break;
     }
   }
   

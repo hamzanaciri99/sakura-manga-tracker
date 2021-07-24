@@ -2,10 +2,9 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { Manga } from "../models/Manga";
+import { Response } from "../models/Response";
 
 const BASE_URL = 'http://localhost:8080/manga';
-
-interface Response {status: 'SUCCESS' | 'ERROR'};
 
 @Injectable({ providedIn: 'root' })
 export class MangaService {

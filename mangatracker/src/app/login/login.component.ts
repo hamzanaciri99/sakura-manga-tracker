@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   username: string = '';
   password: string = '';
 
-  error: string = ''
+  error: boolean = false;
 
   constructor(private authService: AuthService,
     private userInfoService: UserInfoService, private router: Router) { }
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.userInfoService.register(loginResponse);
         this.router.navigate(['/dashboard/manga-list']);
       } else {
-        this.error = 'Bad Credentials';
+        this.error = true;
+        setTimeout(() => this.error = false, 200);
       }
     });
   }

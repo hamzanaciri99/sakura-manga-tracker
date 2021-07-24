@@ -8,13 +8,15 @@ import { MangaListComponent } from './manga-list/manga-list.component';
 import { AuthGuard } from './services/AuthGuard';
 import { AuthService } from './services/AuthService';
 import { NAuthGuard } from './services/NAuthGuard';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const appRoutes: Route[] = [
   {path: '', component: LandingPageComponent, canActivate: [ NAuthGuard ]},
   {path: 'login', component: LoginComponent, canActivate: [ NAuthGuard ]},
   {path: 'signup', component: SignupComponent, canActivate: [ NAuthGuard ]},
-  {path: 'dashboard/manga-list', component: MangaListComponent, canActivate: [ AuthGuard ]}
+  {path: 'dashboard/manga-list', component: MangaListComponent, canActivate: [ AuthGuard ]},
+  {path: 'dashboard/profile', component: ProfileComponent, canActivate: [ AuthGuard ]}
 ];
 
 

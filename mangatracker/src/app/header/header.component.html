@@ -30,7 +30,7 @@
           <span class="text-black">{{fullname | uppercase}}</span>
         </li>
         <hr class="m-2" />
-        <li class="p-2 hover:bg-purple-100 cursor-pointer">Profile</li>
+        <li class="p-2 hover:bg-purple-100 cursor-pointer" routerLink="/dashboard/profile" (click)="handleProfileClick(list)">Profile</li>
         <li class="p-2 hover:bg-purple-100 cursor-pointer" (click)="onLogout()">Logout</li>
       </ul>
     </div>

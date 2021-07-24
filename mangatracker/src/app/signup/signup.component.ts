@@ -1,6 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { of, pipe } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { LoginResponse } from '../models/LoginResponse';
 import { AuthService } from '../services/AuthService';
+import { UserInfoService } from '../services/UserInfoService';
 
 @Component({
   selector: 'app-signup',
@@ -18,9 +23,12 @@ export class SignupComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) {
+  error: boolean = false;
+
+  constructor(private authService: AuthService, private formBuilder: FormBuilder,
+      private userInfoService: UserInfoService, private router: Router) {
     this.form = formBuilder.group({
-      fullname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      fullName: new FormControl('', [Validators.required, Validators.minLength(6)]),
       username: new FormControl('', [
         Validators.minLength(5),
         Validators.pattern(/(^[a-zA-Z])+\w*/g),
@@ -41,7 +49,17 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void { }
 
   onSignup() {
-    this.authService.signup(this.form.value).subscribe(console.log);
+    this.authService.signup(this.form.value)
+      .pipe(catchError(err => of({} as LoginResponse)))
+      .subscribe((loginResponse: LoginResponse) => {
+        if(loginResponse.jwtToken) {
+          this.userInfoService.register(loginResponse);
+          this.router.navigate(['/dashboard/manga-list']);
+        } else {
+          this.error = true;
+          setTimeout(() => this.error = false, 200);
+        }
+      });
   }
 
 }

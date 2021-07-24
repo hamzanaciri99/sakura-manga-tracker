@@ -36,7 +36,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     LOG.info("token: " + token);
 
-    if(token == null || !jwtUtil.verifyJwtToken(token)) {
+    if(token == null || token.equals("") || !jwtUtil.verifyJwtToken(token)) {
       filterChain.doFilter(request, response);
       return;
     }

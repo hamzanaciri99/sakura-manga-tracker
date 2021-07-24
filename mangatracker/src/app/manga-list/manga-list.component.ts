@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { concat } from 'rxjs';
+import { concat, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { Manga } from '../models/Manga';
 import { MangaService } from '../services/MangaService';
@@ -54,6 +54,18 @@ export class MangaListComponent implements OnInit {
     this.getFilteredMangaList().forEach(manga => manga.selected = selectAll);
   }
 
+
+  alert: {
+    message: string,
+    show: boolean,
+    type: 'ERROR' | 'SUCCESS' | 'PENDING'
+  } = {
+    message: '',
+    show: false,
+    type: 'ERROR'
+  }
+
+
   showDeleteMulti() {
     return this.mangaList.find(m => m.selected) != undefined;
   }
@@ -65,13 +77,17 @@ export class MangaListComponent implements OnInit {
         .filter(manga => manga.selected)
         .map(selectedManga => this.mangaService.delete(userInfo?.user.id || 0, selectedManga.mangaId));
       
-        concat(...deleteObservables).subscribe(
-          result => {
-            if(result.status === 'SUCCESS')
-              console.log("deleted!");
-            else console.log('delete failed');
-          }
-        );
+        concat(...deleteObservables)
+          .pipe(catchError(err => of({status: 'ERROR'})))
+          .subscribe(
+            result => {
+              if(result.status === 'SUCCESS')
+                this.showAlert('Deleted successfully', 'SUCCESS');
+              else {
+                this.showAlert('Couldn\'t delete manga', 'ERROR');
+              };
+            }
+          );
       }
     );
 
@@ -88,11 +104,15 @@ export class MangaListComponent implements OnInit {
     this.userInfoService.userInfo.pipe(take(1)).subscribe(
       (userInfo) => {
         if(userInfo) {
-          this.mangaService.updateLastChapter(userInfo.user.id, mangaId, lastRead).subscribe(
+          this.mangaService.updateLastChapter(userInfo.user.id, mangaId, lastRead)
+          .pipe(catchError(err => of({status: 'ERROR'})))
+          .subscribe(
             result => {
-              if(result.status === 'SUCCESS' && manga) 
+              if(result.status === 'SUCCESS' && manga)  {
+                this.showAlert('Manga updated successfully', 'SUCCESS');
                 manga.lastRead = +lastRead;
-              else console.log('mark as read failed');
+              }
+              else this.showAlert('Mark as read failed', 'ERROR');
             }
           );
         }
@@ -110,11 +130,15 @@ export class MangaListComponent implements OnInit {
     this.userInfoService.userInfo.pipe(take(1)).subscribe(
       (userInfo) => {
         if(userInfo) {
-          this.mangaService.delete(userInfo.user.id, mangaId).subscribe(
+          this.mangaService.delete(userInfo.user.id, mangaId)
+          .pipe(catchError(err => of({status: 'ERROR'})))
+          .subscribe(
             result => {
-              if(result.status === 'SUCCESS')
+              if(result.status === 'SUCCESS') {
+                this.showAlert('Deleted successfully', 'SUCCESS');
                 this.mangaList.splice(this.mangaList.findIndex(manga => manga.mangaId == mangaId), 1);
-              else console.log('delete failed');
+              }
+              else this.showAlert('Couldn\'t delete manga', 'ERROR');
             }
           );
         }
@@ -126,7 +150,12 @@ export class MangaListComponent implements OnInit {
     this.userInfoService.userInfo.pipe(take(1)).subscribe(
       (userInfo) => {
         if(userInfo) {
-          this.mangaService.getUserManga(userInfo.user.id).subscribe(mangaList => {
+          this.mangaService.getUserManga(userInfo.user.id)
+          .pipe(catchError(err => {
+            this.showAlert('Couldn\'t fetch manga', 'ERROR');
+            return of([]);
+          }))
+          .subscribe(mangaList => {
             this.mangaList = mangaList;
           });
         }
@@ -145,5 +174,13 @@ export class MangaListComponent implements OnInit {
       manga => manga.title != null
         && manga.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1
     );
+  }
+
+  showAlert(message: string, type: 'ERROR' | 'PENDING' | 'SUCCESS') {
+    this.alert.message = message;
+    this.alert.show = true;
+    this.alert.type = type;
+
+    setTimeout(() => this.alert.show = false, 200);
   }
 }
