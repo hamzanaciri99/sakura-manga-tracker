@@ -14,9 +14,11 @@
 <nav *ngIf="router.url.startsWith('/dashboard')" class="w-full grid grid-cols-5 absolute -top-14">
   <ul class="md:flex w-full col-span-4 mt-2">
     <li class="mr-3 p-1 cursor-pointer" routerLink="/"><img class="h-7" src="assets/img/logo.png" alt="logo"></li>
-    <li class="mr-3 p-1 hover:text-black cursor-pointer" routerLink="/dashboard/manga-list" routerLinkActive="font-bold text-black border-b-2 border-purple-400">Manga List</li>
-    <li class="mr-3 p-1 hover:text-black cursor-pointer" routerLink="/dashboard/report-problem" routerLinkActive="font-bold text-black border-b-2 border-purple-400">
-        Report a problem
+    <li class="mr-3 p-1 px-3 hover:text-black cursor-pointer" routerLink="/dashboard/manga-list" routerLinkActive="font-bold text-black border-b-2 border-purple-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+      </svg>
+      Manga List
     </li>
   </ul>
   <div class="pb-2 relative">
