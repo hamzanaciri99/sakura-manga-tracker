@@ -1,6 +1,6 @@
 
 # Sakura Manga tracker
-![Logo](https://i.ibb.co/J34kbDg/logo.pngo.png =287x41)
+![Logo](https://i.ibb.co/J34kbDg/logo.pngo.png)
 
 ## About
 Sakura is an application for tracking your favourite Manga series last released chapters and chapters you read, and automatically updating your dashboard with the latest info
@@ -22,10 +22,10 @@ The back-end part was split into multiple microservices using Eureka service reg
 
 ## Screenshots
 Home Page:
-![enter image description here](https://i.ibb.co/4RNpCvV/Screenshot-from-2021-07-24-15-27-19.png)
+![Home Page](https://i.ibb.co/4RNpCvV/Screenshot-from-2021-07-24-15-27-19.png)
 
 Dashboard:
-![enter image description here](https://i.ibb.co/jJ99RTR/Screenshot-from-2021-07-24-15-28-01.png)
+![Dashboard](https://i.ibb.co/jJ99RTR/Screenshot-from-2021-07-24-15-28-01.png)
 
 Profile settings:
-![enter image description here](https://i.ibb.co/1vSkgHP/Screenshot-from-2021-07-24-15-29-10.png)
+![Profile settings](https://i.ibb.co/1vSkgHP/Screenshot-from-2021-07-24-15-29-10.png)
