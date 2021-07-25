@@ -14,7 +14,9 @@ export class JwtTokenInterceptor implements HttpInterceptor {
       take(1),
       exhaustMap(userInfo => {
         const modifiedReq = req.clone({
-          headers: new HttpHeaders().set('jwt', userInfo?.jwtToken || '')
+          headers: new HttpHeaders()
+            .set('jwt', userInfo?.jwtToken || '')
+            .set('Access-Control-Allow-Origin', '*')
         });
         return next.handle(modifiedReq);
       })

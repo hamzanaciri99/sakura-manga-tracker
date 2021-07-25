@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { Manga } from "../models/Manga";
 import { Response } from "../models/Response";
 
-const BASE_URL = 'http://localhost:8080/manga';
+const BASE_URL = 'http://18.118.15.241:8080/manga';
 
 @Injectable({ providedIn: 'root' })
 export class MangaService {
