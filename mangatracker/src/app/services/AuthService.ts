@@ -4,7 +4,7 @@ import { LoginResponse } from "../models/LoginResponse";
 import { User } from "../models/User";
 import { Response } from "../models/Response";
 
-const BASE_URL = 'http://18.118.15.241:8080/user'
+const BASE_URL = 'http://localhost:8080/user'
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

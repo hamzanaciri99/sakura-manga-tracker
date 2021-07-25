@@ -1,7 +1,7 @@
 version: '3'
 services:
   mariadb:
-    image: sakura:mariadb
+    image: sakura/mariadb
     container_name: mariadb
     environment:
       MARIADB_ROOT_PASSWORD: ""
@@ -10,41 +10,47 @@ services:
     ports:
       - 3306:3306
   discovery-server:
-    image: sakura:discovery-server
+    image: sakura/discovery-server
     container_name: discovery-server
     ports:
       - 8761:8761
-  user:
-    image: sakura:user-service
+  user-service:
+    image: sakura/user-service
     depends_on:
       - discovery-server
       - mariadb
     environment:
       - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
       - MYSQL_HOST=mariadb
-      - EUREKA_INSTANCE_HOSTNAME=user
-      - EUREKA_INSTANCE_IP_ADDRESS=user
+      - EUREKA_INSTANCE_HOSTNAME=user-service
+      - EUREKA_INSTANCE_IP_ADDRESS=user-service
     ports:
       - 8082:8082
-  manga-info:
-    image: sakura:manga-info-service
+  manga-info-service:
+    image: sakura/manga-info-service
     depends_on:
       - discovery-server
     environment:
       - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=manga-info
-      - EUREKA_INSTANCE_IP_ADDRESS=manga-info
+      - EUREKA_INSTANCE_HOSTNAME=manga-info-service
+      - EUREKA_INSTANCE_IP_ADDRESS=manga-info-service
     ports:
       - 8081:8081
-  manga-tracker-s:
-    image: sakura:manga-tracker
+  manga-tracker:
+    image: sakura/manga-tracker
     depends_on:
       - discovery-server
-      - user
-      - manga-info
+      - user-service
+      - manga-info-service
     environment:
       - SERVICE_URL_DEFAULT_ZONE=http://discovery-server:8761/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=manga-tracker-s
-      - EUREKA_INSTANCE_IP_ADDRESS=manga-tracker-s
+      - EUREKA_INSTANCE_HOSTNAME=manga-tracker
+      - EUREKA_INSTANCE_IP_ADDRESS=manga-tracker
     ports:
       - 8080:8080
+  mangatracker-ng:
+    image: sakura/mangatracker-ng
+    depends_on:
+      - manga-tracker
+    ports:
+      - 80:80
