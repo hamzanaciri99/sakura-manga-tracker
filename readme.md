@@ -17,15 +17,15 @@ Sakura is an application for tracking your favourite Manga series last released 
 
 The project is a typical client server application implemented using the following technologies:
 
--  [Front-end](https://github.com/hamzanaciri99/sakura-manga-tracker/tree/master/mangatracker):
+-  [**Front-end**](https://github.com/hamzanaciri99/sakura-manga-tracker/tree/master/mangatracker):
 
--  [Angluar 12](https://github.com/angular/angular): JavaScript framework for developing SPA
+	-  [Angluar 12](https://github.com/angular/angular): JavaScript framework for developing SPA
 
--  [TailwindCSS](https://github.com/tailwindlabs/tailwindcss): CSS framework
+	-  [TailwindCSS](https://github.com/tailwindlabs/tailwindcss): CSS framework
 
-- Back-end:
+- **Back-end:**
 
--  [Spring boot](https://github.com/spring-projects/spring-framework): Framework for Java-based enterprise applications.
+	-  [Spring boot](https://github.com/spring-projects/spring-framework): Framework for Java-based enterprise applications.
 
   
 
