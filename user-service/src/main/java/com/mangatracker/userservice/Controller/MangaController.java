@@ -2,8 +2,6 @@ package com.mangatracker.userservice.Controller;
 
 import java.util.stream.Collectors;
 
-import javax.websocket.server.PathParam;
-
 import com.mangatracker.userservice.Model.Manga;
 import com.mangatracker.userservice.Model.Response;
 import com.mangatracker.userservice.Model.User;
@@ -12,8 +10,6 @@ import com.mangatracker.userservice.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,6 @@
 package com.mangatracker.userservice.Model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.CascadeType;

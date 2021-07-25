@@ -1,8 +1,5 @@
 package com.mangatracker.userservice.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.mangatracker.userservice.Model.Manga;
 
 import org.springframework.data.repository.CrudRepository;
