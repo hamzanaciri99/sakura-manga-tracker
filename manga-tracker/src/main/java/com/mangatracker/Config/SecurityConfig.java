@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       // public endpoint
       .antMatchers("/user/login").permitAll()
       .antMatchers("/user/signup").permitAll()
+      .antMatchers("/actuator/**").permitAll()
       // everything else is private
       .anyRequest().authenticated();
 

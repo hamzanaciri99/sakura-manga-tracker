@@ -89,6 +89,16 @@ You can stop the application with:
 
 	$ docker-compose down
  
+## Metrics
+
+We'll integrate our application (using spring boot actuator) with a monitoring system called [Prometheus](https://prometheus.io/) and a graphing solution called [Grafana](https://grafana.com/).
+
+![prometheus](https://i.ibb.co/dcrhPML/Screenshot-from-2021-08-11-16-15-14.png)
+
+![Grafana dashboard](https://i.ibb.co/3sZ0t6W/Screenshot-from-2021-08-11-16-14-49.png)
+
+***PS: Metrics are yet to be added in the deploy branch, if you want to test it you'll have to deploy project from the master branch and run Prometheus server with prometheus.yml file then add it to the data-source of Grafana.
+THERE WILL BE A SECTION ABOUT THE STEPS SOON***
 
 ##  Screenshots
 
