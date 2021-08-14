@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,10 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private JwtTokenFilter jwtTokenFilter;
 
-
-  @Override @Bean
+  @Override
+  @Bean
   public AuthenticationManager authenticationManagerBean() throws Exception {
-      return super.authenticationManagerBean();
+    return super.authenticationManagerBean();
   }
 
   @LoadBalanced
@@ -50,39 +49,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http = http.cors().and().csrf().disable();
 
     // Set session management to stateless
-    http = http
-      .sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      .and();
-      
+    http = http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
+
     http = http.exceptionHandling().authenticationEntryPoint((req, res, ex) -> {
       res.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
     }).and();
 
     http.authorizeRequests()
-      // public endpoint
-      .antMatchers("/user/login").permitAll()
-      .antMatchers("/user/signup").permitAll()
-      .antMatchers("/actuator/**").permitAll()
-      // everything else is private
-      .anyRequest().authenticated();
+        // public endpoint
+        .antMatchers("/user/login").permitAll().antMatchers("/user/signup").permitAll().antMatchers("/actuator/**")
+        .permitAll()
+        // everything else is private
+        .anyRequest().authenticated();
 
     // Add JWT token filter
-    http.addFilterBefore(
-      jwtTokenFilter,
-      UsernamePasswordAuthenticationFilter.class
-    );
+    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // TODO Auto-generated method stub
     auth.userDetailsService(username -> new UserDetailsImp(
-        restTemplate().getForEntity("http://user-service/user/get/u/" + username, User.class).getBody()
-      ));
+        restTemplate().getForEntity("http://user-service/user/get/u/" + username, User.class).getBody()));
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() { return NoOpPasswordEncoder.getInstance(); }
-  
+  public PasswordEncoder passwordEncoder() {
+    return NoOpPasswordEncoder.getInstance();
+  }
+
 }

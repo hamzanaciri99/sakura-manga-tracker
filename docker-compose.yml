@@ -1,5 +1,6 @@
 version: '3'
 services:
+  #Database
   mariadb:
     image: sakura/mariadb
     container_name: mariadb
@@ -9,6 +10,7 @@ services:
       MYSQL_DATABASE: manga_tracker
     ports:
       - 3306:3306
+  #Backend services
   discovery-server:
     image: sakura/discovery-server
     container_name: discovery-server
@@ -48,9 +50,31 @@ services:
       - EUREKA_INSTANCE_IP_ADDRESS=manga-tracker
     ports:
       - 8080:8080
+  #Frontend: Angular app
   mangatracker-ng:
     image: sakura/mangatracker-ng
     depends_on:
       - manga-tracker
     ports:
       - 80:80
+  #Prometheus
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - manga-tracker
+    ports:
+      - 9090:9090
+    volumes:
+      - ./metrics/prometheus:/configs
+    command:
+      - '--config.file=/configs/prometheus.yml'
+  # Grafana
+  grafana:
+    image: grafana/grafana
+    depends_on: 
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./metrics/grafana/provisioning:/etc/grafana/provisioning
+    
