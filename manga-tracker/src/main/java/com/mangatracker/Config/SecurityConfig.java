@@ -7,7 +7,6 @@ import com.mangatracker.jwt.JwtTokenFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       // public endpoint
       .antMatchers("/user/login").permitAll()
       .antMatchers("/user/signup").permitAll()
+      .antMatchers("/actuator/**").permitAll()
       // everything else is private
       .anyRequest().authenticated();
 
