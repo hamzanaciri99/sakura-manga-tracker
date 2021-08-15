@@ -100,6 +100,12 @@ We'll integrate our application (using spring boot actuator) with a monitoring s
 ***PS: Metrics are yet to be added in the deploy branch, if you want to test it you'll have to deploy project from the master branch and run Prometheus server with prometheus.yml file then add it to the data-source of Grafana.
 THERE WILL BE A SECTION ABOUT THE STEPS SOON***
 
+## Alertmanager
+
+[Prometheus Alertmanager](https://github.com/prometheus/alertmanager) handles alerts sent by Prometheus server and notifies end user through various method, We will set it up with Gmail to send notifications through email:
+
+![Alertmanager](https://i.ibb.co/0KVXb3f/Screenshot-from-2021-08-15-13-05-16.png)
+
 ##  Screenshots
 
 **Home Page:**
