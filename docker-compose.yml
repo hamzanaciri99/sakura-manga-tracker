@@ -57,11 +57,21 @@ services:
       - manga-tracker
     ports:
       - 80:80
+  #Alermanager
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./metrics/alertmanager:/configs
+    command:
+      - '--config.file=/configs/alertmanager.yml'
   #Prometheus
   prometheus:
     image: prom/prometheus
     depends_on:
       - manga-tracker
+      - alertmanager
     ports:
       - 9090:9090
     volumes:
